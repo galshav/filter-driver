@@ -5,3 +5,10 @@
 /driver/Debug
 /driver/.vs/driver/v16
 /driver/driver/Debug
+/driver/driver/Release
+/driver/driver/x64/Release
+/driver/driver/x64/Debug
+/driver/Release
+/driver/x64/Debug
+/driver/x64/Release
+/driver/.vs/filter-driver/v16
