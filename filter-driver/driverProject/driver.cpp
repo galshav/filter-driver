@@ -38,8 +38,7 @@ NTSTATUS DriverEntry(
 		IoDeleteDevice(deviceObject);
 		return createSymLinkStatus;
 	}
-	int* ptr = nullptr;
-	*ptr = 0;
+
 	return STATUS_SUCCESS;
 }
 
