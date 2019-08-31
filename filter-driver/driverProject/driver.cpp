@@ -7,8 +7,8 @@ NTSTATUS DriverEntry(
 	const PUNICODE_STRING  RegistryPath)
 {
 	AUTO_ENTER_LEAVE();
-	// Create device object.
 	UNREFERENCED_PARAMETER(RegistryPath);
+	// Create device object.
 	DriverObject->DriverUnload = unloadRoutine;
 	UNICODE_STRING deviceName;
 	RtlInitUnicodeString(&deviceName, L"\\Device\\filter-driver");
@@ -39,6 +39,10 @@ NTSTATUS DriverEntry(
 		return createSymLinkStatus;
 	}
 
+	// Support open and close handle to device.
+	DriverObject->MajorFunction[IRP_MJ_CREATE] =
+		DriverObject->MajorFunction[IRP_MJ_CLOSE] = createCloseRoutine;
+
 	return STATUS_SUCCESS;
 }
 
@@ -49,4 +53,13 @@ void unloadRoutine(PDRIVER_OBJECT DriverObject)
 	RtlInitUnicodeString(&win32Name, L"\\??\\filter-driver");
 	IoDeleteSymbolicLink(&win32Name);
 	IoDeleteDevice(DriverObject->DeviceObject);
+}
+
+NTSTATUS createCloseRoutine(PDEVICE_OBJECT DeviceObject, PIRP irp)
+{
+	AUTO_ENTER_LEAVE();
+	UNREFERENCED_PARAMETER(DeviceObject);
+	irp->IoStatus.Information = 0;
+	irp->IoStatus.Status = STATUS_SUCCESS;
+	return STATUS_SUCCESS;
 }

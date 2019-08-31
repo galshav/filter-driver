@@ -1,12 +1,17 @@
 #pragma once
 
 _Function_class_(DRIVER_UNLOAD) void unloadRoutine(PDRIVER_OBJECT DriverObject);
+_Function_class_(DRIVER_DISPATCH) NTSTATUS createCloseRoutine(PDEVICE_OBJECT DeviceObject, PIRP irp);
 
 #define DRIVER_PREFIX "Filter Driver - "
 class AutoEnterLeave
 {
 public:
 	AutoEnterLeave() = delete;
+	AutoEnterLeave(const AutoEnterLeave& other) = delete;
+	AutoEnterLeave(AutoEnterLeave&& other) = delete;
+	AutoEnterLeave& operator=(const AutoEnterLeave& other) = delete;
+	AutoEnterLeave& operator=(AutoEnterLeave&& other) = delete;
 	AutoEnterLeave(char* functionName) :
 		m_FunctionName(functionName)
 	{
