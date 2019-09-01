@@ -14,6 +14,9 @@ int main(const size_t argc, const char* const* const argv)
 {
 	try
 	{
+		UNREFERENCED_PARAMETER(argc);
+		UNREFERENCED_PARAMETER(argv);
+
 		const auto hDevice = CreateFileW(
 			DRIVER_SYMBOLIC_LINK_PATH,
 			GENERIC_READ,
