@@ -32,6 +32,8 @@ int main(const size_t argc, const char* const* const argv)
 		}
 
 		std::cout << "Handle received: " << hDevice << std::endl;
+		CloseHandle(hDevice);
+		std::cout << "Handle closed: " << hDevice << std::endl;
 		return ReturnCodes::Success;
 	}
 
