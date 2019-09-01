@@ -1,4 +1,3 @@
-#include <ntddk.h>
 #include "driver.hpp"
 
 extern "C"
@@ -7,7 +6,6 @@ NTSTATUS DriverEntry(
 	const PUNICODE_STRING)
 {
 	AUTO_ENTER_LEAVE();
-
 	// Registrations.
 	DriverObject->MajorFunction[IRP_MJ_CREATE] =
 		DriverObject->MajorFunction[IRP_MJ_CLOSE] = createCloseRoutine;

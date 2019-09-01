@@ -1,16 +1,14 @@
 #pragma once
+#include <ntddk.h>
+#include "common.hpp"
 
 void unloadRoutine(PDRIVER_OBJECT DriverObject);
 NTSTATUS createCloseRoutine(PDEVICE_OBJECT DeviceObject, PIRP irp);
 
-#define DRIVER_PREFIX "Filter Driver - "
-#define DRIVER_NAME "driver-filter"
-#define DRIVER_DEVICE_PATH L"\\Device\\" DRIVER_NAME
-#define DRIVER_SYMBOLIC_LINK_PATH L"\\??\\" DRIVER_NAME
-
 static const char* const g_CreateDeviceError = "Failed to create device.\r\n";
 static const char* const g_CreateSymbolicLinkError = "Failed to create symbolic link to device.\r\n";
 
+#define AUTO_ENTER_LEAVE() AutoEnterLeave autoEnterLeave(__FUNCTION__)
 class AutoEnterLeave
 {
 public:
@@ -33,4 +31,3 @@ public:
 private:
 	 const char* const m_FunctionName = "";
 };
-#define AUTO_ENTER_LEAVE() AutoEnterLeave autoEnterLeave(__FUNCTION__)
