@@ -28,7 +28,7 @@ int main(const size_t argc, const char* const* const argv)
 
 		if (INVALID_HANDLE_VALUE == hDevice)
 		{
-			std::cout << "Can not open device." << std::endl;
+			throw std::exception("Can not open device.");
 		}
 
 		std::cout << "Handle received: " << hDevice << std::endl;
