@@ -1,9 +1,16 @@
 #pragma once
 
-_Function_class_(DRIVER_UNLOAD) void unloadRoutine(PDRIVER_OBJECT DriverObject);
-_Function_class_(DRIVER_DISPATCH) NTSTATUS createCloseRoutine(PDEVICE_OBJECT DeviceObject, PIRP irp);
+void unloadRoutine(PDRIVER_OBJECT DriverObject);
+NTSTATUS createCloseRoutine(PDEVICE_OBJECT DeviceObject, PIRP irp);
 
 #define DRIVER_PREFIX "Filter Driver - "
+#define DRIVER_NAME "driver-filter"
+#define DRIVER_DEVICE_PATH L"\\Device\\" DRIVER_NAME
+#define DRIVER_SYMBOLIC_LINK_PATH L"\\??\\" DRIVER_NAME
+
+static const char* const g_CreateDeviceError = "Failed to create device.\r\n";
+static const char* const g_CreateSymbolicLinkError = "Failed to create symbolic link to device.\r\n";
+
 class AutoEnterLeave
 {
 public:
@@ -15,15 +22,15 @@ public:
 	AutoEnterLeave(char* functionName) :
 		m_FunctionName(functionName)
 	{
-		DbgPrint(DRIVER_PREFIX "Entering: %s\r\n", m_FunctionName);
+		KdPrint((DRIVER_PREFIX "Entering: %s\r\n", m_FunctionName));
 	}
 
 	~AutoEnterLeave()
 	{
-		DbgPrint(DRIVER_PREFIX "Leaving: %s\r\n", m_FunctionName);
+		KdPrint((DRIVER_PREFIX "Leaving: %s\r\n", m_FunctionName));
 	}
 
 private:
-	 char*  m_FunctionName = "";
+	 const char* const m_FunctionName = "";
 };
 #define AUTO_ENTER_LEAVE() AutoEnterLeave autoEnterLeave(__FUNCTION__)
