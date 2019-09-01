@@ -6,3 +6,6 @@
 /filter-driver/Debug
 /filter-driver/driverProject/Debug
 /filter-driver/tester/Debug
+/filter-driver/driverProject/Release
+/filter-driver/Release
+/filter-driver/tester/Release
