@@ -10,7 +10,7 @@ public:
 	AutoEnterLeave(AutoEnterLeave&& other) = delete;
 	AutoEnterLeave& operator=(const AutoEnterLeave& other) = delete;
 	AutoEnterLeave& operator=(AutoEnterLeave&& other) = delete;
-	AutoEnterLeave(char* functionName) :
+	AutoEnterLeave(const char* const functionName) :
 		m_FunctionName(functionName)
 	{
 		KdPrint((DRIVER_PREFIX "Entering: %ws\r\n", m_FunctionName));
