@@ -3,9 +3,9 @@
 #include "common.hpp"
 
 // Device dispatch routines.
-void unloadRoutine			(PDRIVER_OBJECT DriverObject);
+void unloadRoutine          (PDRIVER_OBJECT DriverObject);
 NTSTATUS createCloseRoutine (PDEVICE_OBJECT DeviceObject, PIRP irp);
-NTSTATUS ioctlRoutine		(PDEVICE_OBJECT DeviceObject, PIRP irp);
+NTSTATUS ioctlRoutine       (PDEVICE_OBJECT DeviceObject, PIRP irp);
 
 // IOCTL's codes.
 #define IOCTL_CREATE_FILE CTL_CODE (0x8000, 0x800, METHOD_BUFFERED, FILE_READ_DATA)
