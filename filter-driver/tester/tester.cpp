@@ -7,7 +7,7 @@ enum ReturnCodes
 {
 	Success			   =	0,
 	Exception		   =   -1,
-	UnhandledException =   -2,
+	UnhandledException =   -2
 };
 
 int wmain(const size_t argc, const char* const* const argv)
