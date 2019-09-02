@@ -2,32 +2,21 @@
 #include <ntddk.h>
 #include "common.hpp"
 
-void unloadRoutine(PDRIVER_OBJECT DriverObject);
-NTSTATUS createCloseRoutine(PDEVICE_OBJECT DeviceObject, PIRP irp);
+// Device dispatch routines.
+void unloadRoutine			(PDRIVER_OBJECT DriverObject);
+NTSTATUS createCloseRoutine (PDEVICE_OBJECT DeviceObject, PIRP irp);
+NTSTATUS ioctlRoutine		(PDEVICE_OBJECT DeviceObject, PIRP irp);
+
+// IOCTL's codes.
+#define IOCTL_CREATE_FILE CTL_CODE (0x8000, 0x800, METHOD_BUFFERED, FILE_READ_DATA)
+#define IOCTL_READ_FILE CTL_CODE   (0x8000, 0x801, METHOD_BUFFERED, FILE_READ_DATA)
+#define IOCTL_CLOSE_FILE CTL_CODE  (0x8000, 0x802, METHOD_BUFFERED, FILE_READ_DATA)
+
+// IOCTL's handlers.
+NTSTATUS IOCTLCreateFile (PDEVICE_OBJECT DeviceObject, PIRP irp, PIO_STACK_LOCATION stack);
+NTSTATUS IOCTLReadFile   (PDEVICE_OBJECT DeviceObject, PIRP irp, PIO_STACK_LOCATION stack);
+NTSTATUS IOCTLCloseFile  (PDEVICE_OBJECT DeviceObject, PIRP irp, PIO_STACK_LOCATION stack);
+NTSTATUS IOCTLDefault    (PDEVICE_OBJECT DeviceObject, PIRP irp, PIO_STACK_LOCATION stack);
 
 static const char* const g_CreateDeviceError = "Failed to create device.\r\n";
 static const char* const g_CreateSymbolicLinkError = "Failed to create symbolic link to device.\r\n";
-
-#define AUTO_ENTER_LEAVE() AutoEnterLeave autoEnterLeave(__FUNCTION__)
-class AutoEnterLeave
-{
-public:
-	AutoEnterLeave() = delete;
-	AutoEnterLeave(const AutoEnterLeave& other) = delete;
-	AutoEnterLeave(AutoEnterLeave&& other) = delete;
-	AutoEnterLeave& operator=(const AutoEnterLeave& other) = delete;
-	AutoEnterLeave& operator=(AutoEnterLeave&& other) = delete;
-	AutoEnterLeave(char* functionName) :
-		m_FunctionName(functionName)
-	{
-		KdPrint((DRIVER_PREFIX "Entering: %s\r\n", m_FunctionName));
-	}
-
-	~AutoEnterLeave()
-	{
-		KdPrint((DRIVER_PREFIX "Leaving: %s\r\n", m_FunctionName));
-	}
-
-private:
-	 const char* const m_FunctionName = "";
-};

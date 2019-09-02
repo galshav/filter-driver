@@ -5,12 +5,12 @@
 
 enum ReturnCodes
 {
-	Success = 0,
-	Exception = -1,
-	UnhandledException = -2,
+	Success			   =	0,
+	Exception		   =   -1,
+	UnhandledException =   -2,
 };
 
-int main(const size_t argc, const char* const* const argv)
+int wmain(const size_t argc, const char* const* const argv)
 {
 	try
 	{
@@ -23,7 +23,7 @@ int main(const size_t argc, const char* const* const argv)
 			0,
 			NULL,
 			OPEN_EXISTING,
-			FILE_ATTRIBUTE_NORMAL,
+			0,
 			NULL);
 
 		if (INVALID_HANDLE_VALUE == hDevice)

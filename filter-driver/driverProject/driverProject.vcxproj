@@ -140,6 +140,7 @@
     <ClCompile Include="driver.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AutoEnterLeave.hpp" />
     <ClInclude Include="common.hpp" />
     <ClInclude Include="driver.hpp" />
   </ItemGroup>
