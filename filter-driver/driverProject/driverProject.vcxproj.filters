@@ -29,5 +29,8 @@
     <ClInclude Include="AutoEnterLeave.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TimeInterval.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

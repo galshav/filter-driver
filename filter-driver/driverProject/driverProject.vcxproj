@@ -143,6 +143,7 @@
     <ClInclude Include="AutoEnterLeave.hpp" />
     <ClInclude Include="common.hpp" />
     <ClInclude Include="driver.hpp" />
+    <ClInclude Include="TimeInterval.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

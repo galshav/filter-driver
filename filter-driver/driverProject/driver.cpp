@@ -1,11 +1,13 @@
 #include "driver.hpp"
 #include "AutoEnterLeave.hpp"
+#include "TimeInterval.hpp"
 
 extern "C"
 NTSTATUS DriverEntry(
 	const PDRIVER_OBJECT DriverObject,
 	const PUNICODE_STRING)
 {
+	CALCULATE_TIME_INTERVAL();
 	AUTO_ENTER_LEAVE();
 	// Registrations.
 	DriverObject->MajorFunction[IRP_MJ_CREATE] = createCloseRoutine;
