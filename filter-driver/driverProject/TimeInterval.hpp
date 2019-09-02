@@ -16,7 +16,7 @@ public:
 	TimeInterval& operator=(TimeInterval&& other) = delete;
 	TimeInterval()
 	{
-		m_BeginTime = KeQueryPerformanceCounter(&m_EndTime);
+		m_BeginTime = KeQueryPerformanceCounter(&m_Resolution);
 	}
 
 	~TimeInterval()
