@@ -69,6 +69,7 @@ NTSTATUS createCloseRoutine(PDEVICE_OBJECT, PIRP irp)
 
 NTSTATUS ioctlRoutine(PDEVICE_OBJECT DeviceObject, PIRP irp)
 {
+	AUTO_ENTER_LEAVE();
 	NTSTATUS status = STATUS_UNSUCCESSFUL;
 	const auto stack = IoGetCurrentIrpStackLocation(irp);
 	switch (stack->Parameters.DeviceIoControl.IoControlCode)
@@ -90,20 +91,31 @@ NTSTATUS ioctlRoutine(PDEVICE_OBJECT DeviceObject, PIRP irp)
 		break;
 	}
 
+	irp->IoStatus.Status = status;
 	IoCompleteRequest(irp, IO_NO_INCREMENT);
 	return status;
 }
 
-NTSTATUS IOCTLCreateFile(PDEVICE_OBJECT DeviceObject, PIRP irp, PIO_STACK_LOCATION stack)
+NTSTATUS IOCTLCreateFile(PDEVICE_OBJECT, PIRP irp, PIO_STACK_LOCATION stack)
 {
-	UNREFERENCED_PARAMETER(DeviceObject);
-	UNREFERENCED_PARAMETER(irp);
-	UNREFERENCED_PARAMETER(stack);
-	return NTSTATUS();
+	AUTO_ENTER_LEAVE();
+	NTSTATUS status = STATUS_UNSUCCESSFUL;
+	if (stack->Parameters.DeviceIoControl.InputBufferLength < sizeof(CreateFileRequest))
+	{
+		status = STATUS_INVALID_BUFFER_SIZE;
+		irp->IoStatus.Information = 0;
+		return status;
+	}
+
+	KdPrint(("Request path: %ws\r\n", ((PCreateFileRequest)(irp->AssociatedIrp.SystemBuffer))->Path));
+	status = STATUS_SUCCESS;
+	irp->IoStatus.Information = 0;
+	return status;
 }
 
 NTSTATUS IOCTLReadFile(PDEVICE_OBJECT DeviceObject, PIRP irp, PIO_STACK_LOCATION stack)
 {
+	AUTO_ENTER_LEAVE();
 	UNREFERENCED_PARAMETER(DeviceObject);
 	UNREFERENCED_PARAMETER(irp);
 	UNREFERENCED_PARAMETER(stack);
@@ -112,6 +124,7 @@ NTSTATUS IOCTLReadFile(PDEVICE_OBJECT DeviceObject, PIRP irp, PIO_STACK_LOCATION
 
 NTSTATUS IOCTLCloseFile(PDEVICE_OBJECT DeviceObject, PIRP irp, PIO_STACK_LOCATION stack)
 {
+	AUTO_ENTER_LEAVE();
 	UNREFERENCED_PARAMETER(DeviceObject);
 	UNREFERENCED_PARAMETER(irp);
 	UNREFERENCED_PARAMETER(stack);
@@ -120,6 +133,7 @@ NTSTATUS IOCTLCloseFile(PDEVICE_OBJECT DeviceObject, PIRP irp, PIO_STACK_LOCATIO
 
 NTSTATUS IOCTLDefault(PDEVICE_OBJECT, PIRP irp, PIO_STACK_LOCATION)
 {
+	AUTO_ENTER_LEAVE();
 	NTSTATUS status = STATUS_NOT_IMPLEMENTED;
 	irp->IoStatus.Status = status;
 	irp->IoStatus.Information = 0;

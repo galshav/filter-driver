@@ -8,3 +8,9 @@
 #define IOCTL_CREATE_FILE CTL_CODE (0x8000, 0x0800, METHOD_BUFFERED, FILE_READ_DATA)
 #define IOCTL_READ_FILE CTL_CODE   (0x8000, 0x0801, METHOD_BUFFERED, FILE_READ_DATA)
 #define IOCTL_CLOSE_FILE CTL_CODE  (0x8000, 0x0802, METHOD_BUFFERED, FILE_READ_DATA)
+
+// Requests information.
+typedef struct _CreateFileRequest
+{
+	const wchar_t* Path;
+} CreateFileRequest, *PCreateFileRequest;
