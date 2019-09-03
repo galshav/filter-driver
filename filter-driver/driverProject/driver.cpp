@@ -24,7 +24,7 @@ NTSTATUS DriverEntry(
 		0,
 		&deviceName,
 		FILE_DEVICE_UNKNOWN,
-		DO_BUFFERED_IO,
+		0,
 		FALSE,
 		&deviceObject);
 

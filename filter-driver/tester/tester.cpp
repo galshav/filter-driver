@@ -5,9 +5,9 @@
 
 enum ReturnCodes
 {
-	Success			   =	0,
-	Exception		   =   -1,
-	UnhandledException =   -2,
+	Success			   =  0,
+	Exception		   = -1,
+	UnhandledException = -2,
 };
 
 int wmain(const size_t argc, const char* const* const argv)
@@ -32,20 +32,32 @@ int wmain(const size_t argc, const char* const* const argv)
 		}
 
 		std::cout << "Handle received: " << hDevice << std::endl;
+		HANDLE outBuffer[1] = { 0 };
+		DWORD bytesReturned = 0;
+		const auto ioctlStatus = DeviceIoControl(
+			hDevice,
+			(DWORD)IOCTL_CREATE_FILE,
+			nullptr,
+			0,
+			outBuffer,
+			sizeof(outBuffer),
+			&bytesReturned,
+			nullptr);
+
 		CloseHandle(hDevice);
-		std::cout << "Handle closed: " << hDevice << std::endl;
+		std::cout << "Handle closed." << std::endl;
 		return ReturnCodes::Success;
 	}
 
 	catch (const std::exception& error)
 	{
-		std::cout << "Error: " << error.what();
+		std::cout << "Error: " << error.what() <<std::endl;
 		return ReturnCodes::Exception;
 	}
 
 	catch (...)
 	{
-		std::cout << "Unhandled exception.\r\n";
+		std::cout << "Unhandled exception." << std::endl;
 		return ReturnCodes::UnhandledException;
 	}
 }

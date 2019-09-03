@@ -13,14 +13,14 @@ public:
 	AutoEnterLeave(const char* const functionName) :
 		m_FunctionName(functionName)
 	{
-		KdPrint((DRIVER_PREFIX "Entering: %ws\r\n", m_FunctionName));
+		KdPrint((DRIVER_PREFIX "Entering: %s\r\n", m_FunctionName));
 	}
 
 	~AutoEnterLeave()
 	{
-		KdPrint((DRIVER_PREFIX "Leaving: %ws\r\n", m_FunctionName));
+		KdPrint((DRIVER_PREFIX "Leaving: %s\r\n", m_FunctionName));
 	}
 
 private:
-	const char* const m_FunctionName = "";
+	const char* const m_FunctionName = nullptr;
 };
